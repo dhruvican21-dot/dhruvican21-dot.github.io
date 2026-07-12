@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gut & Hair Tracker</title>
+<style>
+:root{
+  --teal:#0E7C7B; --teal-dk:#0F3B3A; --mint:#EFF7F6; --mint2:#E2F0EE;
+  --rose:#C05771; --rose-lt:#FBEDF0; --amber:#B9770E; --amber-lt:#FFF6E8;
+  --ink:#22333A; --grey:#6B7C82; --line:#D7E4E2; --card:#fff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mint);color:var(--ink);padding-bottom:50px}
+
+/* JS-off notice — JavaScript removes this on boot */
+#jsoff{background:#C05771;color:#fff;padding:16px 14px;font-size:14px;line-height:1.6}
+#jsoff b{display:block;font-size:16px;margin-bottom:6px}
+#jsoff ol{margin:8px 0 0;padding-left:20px}
+
+.hd{background:var(--teal-dk);color:#fff;padding:14px 12px 12px}
+.hd h1{font-size:19px;font-weight:800;margin:0;letter-spacing:-.02em}
+.hd .sub{font-size:12px;opacity:.8;margin-top:2px}
+.bar{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap}
+.bar button{border:none;border-radius:10px;font-weight:700;font-size:13px;min-height:42px;padding:0 14px;cursor:pointer;font-family:inherit}
+.bnav{background:rgba(255,255,255,.16);color:#fff;width:42px}
+.bpill{background:rgba(255,255,255,.16);color:#fff}
+.bpill.on{background:#fff;color:var(--teal-dk)}
+#mname{font-weight:800;font-size:14px;min-width:104px;text-align:center}
+.stat{margin-left:auto;background:rgba(255,255,255,.14);border-radius:14px;padding:6px 11px;font-size:11px;font-weight:700}
+.stat.warn{background:var(--rose)}
+
+.wrap{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;background:var(--card);box-shadow:0 3px 12px rgba(15,59,58,.08)}
+table{border-collapse:separate;border-spacing:0;font-size:11px}
+th,td{padding:0;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+thead th{background:var(--teal-dk);color:#fff}
+th.corner{position:-webkit-sticky;position:sticky;left:0;z-index:3;min-width:106px;max-width:106px;font-size:9.5px;text-align:left;padding:9px 8px}
+th.d{min-width:46px;max-width:46px;text-align:center;padding:7px 2px}
+th.d .w{display:block;font-size:8.5px;opacity:.7;text-transform:uppercase}
+th.d .n{display:block;font-size:14px;font-weight:800}
+th.d.today{background:var(--amber)}
+th.d.sun{background:#5c2e3c}
+td.task{position:-webkit-sticky;position:sticky;left:0;z-index:2;background:var(--card);min-width:106px;max-width:106px;padding:8px;cursor:pointer;border-right:2px solid var(--teal)}
+td.task .tm{font-size:9px;color:var(--teal);font-weight:800}
+td.task .nm{font-size:10.5px;font-weight:700;line-height:1.25}
+td.c{min-width:46px;max-width:46px;height:46px;text-align:center;cursor:pointer;font-weight:800;color:#B9C6C3;vertical-align:middle;font-size:15px}
+td.c .cd{display:block;font-size:8px;font-weight:700;color:var(--grey);line-height:1.1}
+td.c.on{background:var(--teal);color:#fff}
+td.c.on .cd{color:rgba(255,255,255,.85)}
+td.c.off{background:#F3F6F5;color:#D4DEDB;cursor:default}
+td.c.td{background:var(--amber-lt)}
+td.c.on.td{background:var(--teal)}
+td.c.su{background:var(--rose-lt)}
+td.c.on.su{background:var(--rose)}
+tr.score td{background:var(--mint2);height:34px;font-size:10px;font-weight:800;color:var(--teal-dk)}
+tr.score td.task{background:var(--mint2)}
+tr.note td.c{font-size:14px}
+tr.note td.c.has{color:var(--amber)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 11px;font-size:11px;font-weight:600;color:var(--teal-dk)}
+.chip b{color:var(--rose)}
+details{background:var(--card);border-radius:12px;margin:8px 12px;box-shadow:0 2px 8px rgba(15,59,58,.06)}
+summary{font-weight:800;font-size:13.5px;color:var(--teal-dk);padding:14px;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+.db{padding:0 14px 14px;font-size:13px;line-height:1.55}
+.db b{color:var(--teal-dk)}
+.db h4{font-size:11.5px;color:var(--teal);margin:12px 0 4px;text-transform:uppercase}
+.db ul{margin:5px 0;padding-left:17px}
+
+.ov{display:none;position:fixed;inset:0;background:rgba(15,59,58,.5);z-index:50;align-items:flex-end;justify-content:center}
+.ov.show{display:flex}
+.md{background:#fff;width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:18px 16px 30px;max-height:82vh;overflow:auto}
+.md h3{font-size:16px;margin:0 0 4px;color:var(--teal-dk)}
+.md .tm{font-size:11px;color:var(--teal);font-weight:800;margin-bottom:8px}
+.md .dt{font-size:14px;line-height:1.6;white-space:pre-wrap}
+.md label{display:block;font-size:11px;font-weight:800;color:var(--grey);margin:13px 0 5px;text-transform:uppercase}
+.md input,.md textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px;font-size:16px;font-family:inherit;color:var(--ink)}
+.md textarea{min-height:110px}
+.opts{display:flex;gap:7px;flex-wrap:wrap}
+.opts.v{flex-direction:column}
+.opt{flex:1;background:var(--mint2);border:2px solid transparent;border-radius:11px;padding:13px 12px;font-size:14px;font-weight:700;color:var(--teal-dk);cursor:pointer;text-align:left;font-family:inherit;min-height:46px}
+.opt.sel{background:var(--teal);color:#fff}
+.mb{display:flex;gap:8px;margin-top:16px}
+.mb button{flex:1;border:none;border-radius:11px;min-height:48px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit}
+.bsv{background:var(--teal);color:#fff}
+.bcl{background:var(--mint2);color:var(--teal-dk)}
+.bdl{background:var(--rose-lt);color:var(--rose)}
+.addbtn{display:block;margin:12px auto;background:var(--amber);color:#fff;border:none;border-radius:11px;min-height:46px;padding:0 20px;font-weight:800;font-size:14px;font-family:inherit}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--teal-dk);color:#fff;font-size:13px;font-weight:700;padding:10px 20px;border-radius:22px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div id="jsoff">
+  <b>⚠️ This viewer can't run the tracker</b>
+  The file preview you opened blocks the app code. To use the tracker on iPhone:
+  <ol>
+    <li><b>Best:</b> open <b>claude.ai in Safari</b> (the website, not the app), log in, open this chat, tap the tracker file → fully working + saves to your account</li>
+    <li>Or: share this file to <b>Chrome</b> (Share → Open in Chrome)</li>
+    <li>Don't open it from the Files app preview — that preview always blocks apps</li>
+  </ol>
+</div>
+
+<div class="hd">
+  <h1>🌸 Gut & Hair Tracker</h1>
+  <div class="sub">One tick at a time — gut, hair, skin</div>
+  <div class="bar">
+    <button class="bnav" id="pm">‹</button>
+    <span id="mname">—</span>
+    <button class="bnav" id="nm">›</button>
+    <button class="bpill" id="tb">Today</button>
+    <button class="bpill" id="eb">✏️ Edit</button>
+    <span class="stat" id="st">…</span>
+  </div>
+</div>
+
+<div class="wrap" id="wrap"><table><thead id="th"></thead><tbody id="tbdy"></tbody></table></div>
+<button class="addbtn" id="ab" style="display:none">＋ Add a new row</button>
+
+<div class="chips">
+  <span class="chip">🍳 Breakfast auto-shows per day</span>
+  <span class="chip">🍎 Fruit: Wk1 Papaya · Wk2 Guava · Wk3 Orange · Wk4 Chikoo</span>
+  <span class="chip">👣 <b>5k steps flat, all month</b></span>
+  <span class="chip">🚽 Motion: tap = log time + type · 🟢 = perfect</span>
+  <span class="chip">🌿 Variyali-ajwain AFTER LUNCH</span>
+  <span class="chip">🥛 Night: milk + isabgol + ghee + haldi (one glass)</span>
+  <span class="chip">💪 Strength Mon-Wed-Fri (only 3 SN those days)</span>
+  <span class="chip"><b>Sunday</b> = rest + free meal 🎉</span>
+</div>
+
+<details><summary>🧘 Exercise plan — Month 1</summary><div class="db">
+<h4>Daily gut yoga — 6:30 AM, never skip</h4>
+<ul><li>Belly breathing — 10 slow breaths</li><li>Pawanmuktasana — 20s × 3</li><li>Lying spinal twist — 30s/side × 2</li><li>Malasana squat — 30-45s × 3</li><li>Cat-Cow — 10 rounds</li><li>Cobra — 15s × 3</li><li>Vajrasana — 2 min (+5 min after dinner)</li></ul>
+<b>+ Surya Namaskar:</b> 5-6 rounds (only 3 on strength days)
+<h4>Week 1</h4>Yoga + SN · lunch walk 10m · dinner walk 15m · zero missed days
+<h4>Week 2 — strength Mon-Wed-Fri</h4>Wall push-ups 2×8 · chair squats 2×10 · glute bridge 2×10 · calf raises 2×15 · knee plank 2×15s · dinner walk 20m
+<h4>Week 3</h4>Same moves, 3 sets · plank 2×25s · dinner walk 25m
+<h4>Week 4</h4>Incline push-ups 3×8 · free squats 3×12 · side leg raises 2×12 · dinner walk 30m
+<p><b style="color:var(--rose)">Steps: 5,000 flat all month.</b> Sunday = rest. Missed a day? Continue next day, no guilt.</p>
+</div></details>
+
+<details><summary>🍽️ Diet plan — Jain, 3 meals</summary><div class="db">
+<h4>Breakfast 8 AM (auto-shown in grid)</h4>
+<ul><li><b>Mon+Thu:</b> Kashmiri musli in milk 🥣</li><li><b>Tue:</b> bhakhri + curd + flax</li><li><b>Wed:</b> besan chilla + curd</li><li><b>Fri:</b> moong sprouts + bhakhri</li><li><b>Sat:</b> Jain poha + milk</li><li><b>Sun:</b> free 😄</li></ul>
+Tea AFTER food only, 1 cup max.
+<h4>Lunch 1-1:30</h4>2 roti + sabji + chaas/curd + <b>kachumber daily</b> · dal 2-3×/wk · eat slowly 15+ min · then variyali-ajwain (chewed dry) + 10 min walk. Sunday restaurant OK 🎉
+<h4>4:30 — 1 fruit</h4>Wk1 Papaya · Wk2 Guava · Wk3 Orange · Wk4 Chikoo
+<h4>Dinner 7:45-8:15 (lighter)</h4>bhakhri/phulka + sabji most days · 2 days moong khichdi + Jain kadhi · <b>Night glass:</b> warm milk + 1-2 tsp isabgol + ¼ tsp ghee + pinch haldi — one glass, everything in it.
+<h4>Kitchen rules</h4>Hing + jeera in every vaghar · soak dals 4+ hrs · easy on chana/rajma/cabbage/cauliflower · weekly oily meal allowed.
+<h4>Month view</h4>Wk1-2 follow fully · Wk3 easy daily motion → isabgol 1 tsp · Wk4 normal → isabgol off-days only · Month 2 → blood-test supplements join breakfast.
+</div></details>
+
+<details><summary>💡 How to use</summary><div class="db">
+Tap a cell = ✓ tick. Tap a <b>task name</b> = full detail + Edit button. 🚽 row: tap = log motion time + type (🟢🔴🟡 dots build your gut map). 📝 row = daily note. ✏️ Edit mode also adds ＋ Add row and delete. Amber column = today. Everything saves automatically — watch for "Saved ✓" in the header.
+</div></details>
+
+<div class="ov" id="ov"><div class="md" id="md"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+document.getElementById("jsoff").style.display = "none"; /* JS runs → hide the notice */
+
+var TASKS = [
+ {id:"t1", time:"6:00", name:"Warm water + flaxseed", type:"d", dt:"1 glass warm water + 1 tsp soaked flaxseed (or 4-5 soaked raisins + 1 anjeer). Sip slowly."},
+ {id:"t2", time:"6:15", name:"Toilet — same time 🚽", type:"d", dt:"SAME time daily, even if nothing happens. Small stool under feet (squat position). Body learns in 2-3 weeks."},
+ {id:"t3", time:"6:30", name:"Gut yoga 15m 🧘", type:"d", dt:"1. Belly breathing — 10 breaths\n2. Pawanmuktasana — 20s × 3\n3. Lying spinal twist — 30s/side × 2\n4. Malasana squat — 30-45s × 3\n5. Cat-Cow — 10 rounds\n6. Cobra — 15s × 3\n7. Vajrasana — 2 min"},
+ {id:"t4", time:"6:45", name:"Surya Namaskar ☀️", type:"d", dt:"Tue/Thu/Sat/Sun: 5-6 slow rounds.\nMon/Wed/Fri (strength days): only 3 rounds.\nBeginners: ~1.5 min per round is perfect."},
+ {id:"t5", time:"6:50", name:"Strength 💪 M-W-F", type:"mwf", dt:"Starts Week 2, ~12-15 min:\n• Wall push-ups 2×8\n• Chair squats 2×10\n• Glute bridge 2×10\n• Calf raises 2×15\n• Knee plank 2×15s\nWk3: 3 sets each · Wk4: incline push-ups, free squats, + side leg raises"},
+ {id:"t6", time:"7:00", name:"Katha + Pooja 🙏", type:"d", dt:"Bath 6:55, then katha 7-8 AM with pooja — fresh and calm."},
+ {id:"t7", time:"8:00", name:"Breakfast 🍳", type:"bf", dt:"Mon+Thu: Kashmiri musli in milk 🥣\nTue: bhakhri + curd + flax\nWed: besan chilla + curd\nFri: moong sprouts + bhakhri\nSat: Jain poha + milk\nSun: free 😄\nTea AFTER food, 1 cup max."},
+ {id:"t8", time:"8:00", name:"Sunscreen SPF50 ☀️", type:"d", dt:"Every morning on the face — this is LPP treatment. Yes, in monsoon too: clouds block only ~20% of UVA, and UVA darkens LPP patches."},
+ {id:"t9", time:"8:45", name:"Left home by 8:45", type:"d", dt:"Leave 8:30-8:45 → office by 9."},
+ {id:"t10", time:"1:00", name:"Lunch + salad 🥗", type:"d", dt:"2 roti + sabji + chaas/curd + kachumber daily. Dal 2-3×/wk (moong best). Eat slowly 15+ min.\nSunday restaurant OK 🎉"},
+ {id:"t11", time:"1:30", name:"Walk 10m 🚶", type:"d", dt:"10 min slow walk right after lunch — even office corridor. Best single thing for digestion."},
+ {id:"t12", time:"1:45", name:"Variyali+ajwain 🌿", type:"d", dt:"1 tsp variyali + pinch ajwain — chewed dry, mukhwas style, after lunch (bigger meal = where gas support helps most)."},
+ {id:"t13", time:"4:30", name:"Fruit of week 🍎", type:"fr", dt:"One fruit, not a meal.\nWk1 Papaya 🧡 · Wk2 Guava 💚 · Wk3 Orange 🍊 · Wk4 Chikoo 🍐\nBlack coffee OK alongside, max 3×/wk."},
+ {id:"t14", time:"6:30", name:"Left office 6:30", type:"d", dt:"Leave 6:30 → home by 7. The whole evening depends on this one."},
+ {id:"t15", time:"7:00", name:"Cooking 👩‍🍳", type:"ck", dt:"Mon-Wed-Fri evenings: assist + observe.\nSunday: one full dish SOLO.\n≈60 dishes before 16 Dec 2026 💍"},
+ {id:"t16", time:"8:00", name:"Dinner 🍽️", type:"d", dt:"Lighter than lunch, by 8:15:\n• Most days: bhakhri/phulka + sabji\n• 2 days: moong khichdi + Jain kadhi + ½ tsp ghee\n• Sun: light khichdi"},
+ {id:"t17", time:"8:15", name:"Night milk mix 🥛", type:"d", dt:"ONE glass, everything in it:\nWarm milk + 1-2 tsp isabgol + ¼ tsp ghee + pinch haldi.\nIsabgol = fibre (root fix) · ghee = lubrication.\nWk3: 1 tsp if motion daily & easy. After Month 1 if normal → ghee-haldi milk alone."},
+ {id:"t18", time:"8:30", name:"Evening walk 🚶‍♀️", type:"wk", dt:"Wk1: 15 min easy\nWk2: 20 min\nWk3: 25 min brisk\nWk4: 30 min brisk\nSunday: light stroll."},
+ {id:"t19", time:"Day", name:"Steps 5,000 👣", type:"st", dt:"5,000 every day, ALL month (from 2k = already 2.5×!). Lunch walk + evening walk + office movement gets you there. Next month we raise slowly."},
+ {id:"t20", time:"—", name:"Motion? 🚽", type:"mo", dt:"Tap the cell to log WHEN (morning/afternoon/night) and TYPE:\n🔴 Hard/lumpy = constipated\n🟢 Smooth = perfect\n🟡 Loose = too fast\nGoal: green morning dots. The most valuable row here."}
+];
+var BF={1:"Musli",2:"Bhakhri",3:"Chilla",4:"Musli",5:"Sprouts",6:"Poha",0:"Free"};
+var FR=["Papaya","Guava","Orange","Chikoo"], WK=["15m","20m","25m","30m"];
+var MOS={hard:"🔴",normal:"🟢",loose:"🟡"}, MOT={m:"Morn",a:"Aft",n:"Night"};
+var MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+var KEY="tracker-state-v1";
+
+var state={v:3,tasks:TASKS,months:{}};
+var now=new Date(), Y=now.getFullYear(), M=now.getMonth();
+var editing=false, saveT=null, mem={};
+
+function $(id){return document.getElementById(id)}
+function mk(){return Y+"-"+(M+1<10?"0":"")+(M+1)}
+function md(){var k=mk(); if(!state.months[k])state.months[k]={checks:{},notes:{},motion:{}}; var m=state.months[k]; if(!m.motion)m.motion={}; return m}
+function wof(d){var w=Math.ceil(d/7); return (w>4?4:w)-1}
+function act(t,dw){ if(t.type==="mwf")return dw===1||dw===3||dw===5; if(t.type==="ck")return dw===1||dw===3||dw===5||dw===0; return true }
+function code(t,d,dw){ if(t.type==="bf")return BF[dw]; if(t.type==="fr")return dw===0?"Any":FR[wof(d)]; if(t.type==="wk")return dw===0?"Stroll":WK[wof(d)]; if(t.type==="st")return "5k"; return null }
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
+function toast(m){var t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(function(){t.classList.remove("show")},1700)}
+function setSt(txt,warn){var e=$("st"); e.textContent=txt; e.className=warn?"stat warn":"stat"}
+
+/* storage: window.storage (timeout) -> localStorage -> memory */
+function tmo(p,ms){return Promise.race([p,new Promise(function(r){setTimeout(function(){r(null)},ms)})])}
+function sGet(k){
+  return new Promise(function(res){
+    var done=false;
+    function fin(v){ if(!done){done=true;res(v)} }
+    try{
+      if(window.storage&&window.storage.get){
+        tmo(window.storage.get(k),1500).then(function(r){
+          if(r&&r.value)fin(r.value); else fin(lsGet(k));
+        }).catch(function(){fin(lsGet(k))});
+        return;
+      }
+    }catch(e){}
+    fin(lsGet(k));
+  });
+}
+function lsGet(k){ try{ if(window.localStorage){var v=localStorage.getItem(k); if(v)return v} }catch(e){} return mem[k]||null }
+function sSet(k,v){
+  return new Promise(function(res){
+    var ok=false;
+    try{ if(window.localStorage){localStorage.setItem(k,v); ok=true} }catch(e){}
+    try{
+      if(window.storage&&window.storage.set){
+        tmo(window.storage.set(k,v),2500).then(function(r){ res(ok||!!r) }).catch(function(){ if(!ok)mem[k]=v; res(ok) });
+        return;
+      }
+    }catch(e){}
+    if(!ok)mem[k]=v;
+    res(ok);
+  });
+}
+function save(){
+  setSt("Saving…");
+  clearTimeout(saveT);
+  saveT=setTimeout(function(){
+    sSet(KEY,JSON.stringify(state)).then(function(ok){
+      if(ok)setSt("Saved ✓"); else setSt("⚠️ Not saving",true);
+    });
+  },300);
+}
+
+/* ---------- render ---------- */
+function render(){
+  try{
+    var days=new Date(Y,M+1,0).getDate();
+    var tn=new Date(), thisM=(tn.getFullYear()===Y&&tn.getMonth()===M), td=thisM?tn.getDate():-1;
+    $("mname").textContent=MN[M]+" "+Y;
+    var m=md(), h="<tr><th class='corner'>Task ⬇ · Date ➡</th>", d, dw, i;
+    for(d=1;d<=days;d++){
+      dw=new Date(Y,M,d).getDay();
+      h+="<th class='d "+(d===td?"today ":"")+(dw===0?"sun":"")+"'><span class='w'>"+["Su","Mo","Tu","We","Th","Fr","Sa"][dw]+"</span><span class='n'>"+d+"</span></th>";
+    }
+    $("th").innerHTML=h+"</tr>";
+    var b="";
+    for(i=0;i<state.tasks.length;i++){
+      var t=state.tasks[i];
+      b+="<tr><td class='task' data-tk='"+t.id+"'><span class='tm'>"+esc(t.time)+"</span><div class='nm'>"+esc(t.name)+"</div></td>";
+      for(d=1;d<=days;d++){
+        dw=new Date(Y,M,d).getDay();
+        if(!act(t,dw)){ b+="<td class='c off'>—</td>"; continue }
+        var cls="c"+(d===td?" td":"")+(dw===0?" su":"");
+        if(t.type==="mo"){
+          var mo=m.motion[d];
+          b+="<td class='"+cls+"' data-mo='"+d+"'>"+(mo?(MOS[mo.s]||"⚪")+"<span class='cd'>"+(MOT[mo.t]||"")+"</span>":"·")+"</td>";
+          continue;
+        }
+        var dn=!!(m.checks[t.id]&&m.checks[t.id][d]);
+        var cd=code(t,d,dw);
+        var inner=(dn?"✓":"")+(cd?"<span class='cd'>"+cd+"</span>":"");
+        if(!dn&&!cd)inner="";
+        b+="<td class='"+cls+(dn?" on":"")+"' data-t='"+t.id+"' data-d='"+d+"'>"+inner+"</td>";
+      }
+      b+="</tr>";
+    }
+    /* score */
+    b+="<tr class='score'><td class='task'><div class='nm'>📊 Score</div></td>";
+    for(d=1;d<=days;d++){
+      dw=new Date(Y,M,d).getDay();
+      var tot=0,dn2=0;
+      for(i=0;i<state.tasks.length;i++){var tt=state.tasks[i]; if(act(tt,dw)){tot++; if(tt.type==="mo"){if(m.motion[d])dn2++} else if(m.checks[tt.id]&&m.checks[tt.id][d])dn2++}}
+      b+="<td class='c"+(d===td?" td":"")+"'>"+(dn2>0?dn2+"/"+tot:"·")+"</td>";
+    }
+    b+="</tr>";
+    /* notes */
+    b+="<tr class='note'><td class='task'><div class='nm'>📝 Note</div></td>";
+    for(d=1;d<=days;d++){
+      var has=m.notes[d]&&m.notes[d].replace(/\s/g,"");
+      b+="<td class='c"+(has?" has":"")+(d===td?" td":"")+"' data-nt='"+d+"'>"+(has?"●":"·")+"</td>";
+    }
+    b+="</tr>";
+    $("tbdy").innerHTML=b;
+    if(thisM){ setTimeout(function(){
+      try{ var el=document.querySelector("th.d.today"); if(el){$("wrap").scrollLeft=Math.max(0,el.offsetLeft-130)} }catch(e){}
+    },50)}
+  }catch(e){ showErr("render: "+e.message) }
+}
+function showErr(msg){
+  var e=$("errb");
+  if(!e){e=document.createElement("div");e.id="errb";e.style.cssText="background:#C05771;color:#fff;font:700 12px/1.4 sans-serif;padding:9px 12px";document.body.insertBefore(e,document.body.firstChild)}
+  e.textContent="⚠️ "+msg+" — screenshot & send";
+}
+window.onerror=function(msg,s,l){showErr(msg+" (line "+l+")");return false};
+
+/* ---------- taps ---------- */
+$("tbdy").addEventListener("click",function(e){
+  var c=e.target; while(c&&c.tagName!=="TD")c=c.parentNode;
+  if(!c)return;
+  if(c.getAttribute("data-mo")){ openMo(parseInt(c.getAttribute("data-mo"),10)); return }
+  if(c.getAttribute("data-nt")){ openNt(parseInt(c.getAttribute("data-nt"),10)); return }
+  var tid=c.getAttribute("data-t"), dd=c.getAttribute("data-d");
+  if(tid&&dd){
+    var m=md();
+    if(!m.checks[tid])m.checks[tid]={};
+    if(m.checks[tid][dd])delete m.checks[tid][dd]; else m.checks[tid][dd]=1;
+    save(); render(); return;
+  }
+  var tk=c.getAttribute("data-tk");
+  if(tk){
+    var task=null;
+    for(var i=0;i<state.tasks.length;i++)if(state.tasks[i].id===tk)task=state.tasks[i];
+    if(task){ if(editing)openEd(task); else openDt(task) }
+  }
+});
+$("pm").onclick=function(){M--; if(M<0){M=11;Y--} render()};
+$("nm").onclick=function(){M++; if(M>11){M=0;Y++} render()};
+$("tb").onclick=function(){var n=new Date();Y=n.getFullYear();M=n.getMonth();render()};
+$("eb").onclick=function(){
+  editing=!editing;
+  this.className=editing?"bpill on":"bpill";
+  this.textContent=editing?"✓ Done":"✏️ Edit";
+  $("ab").style.display=editing?"block":"none";
+  toast(editing?"Edit mode: tap a task name":"Edit off");
+};
+$("ab").onclick=function(){
+  var t={id:"c"+Date.now(),time:"—",name:"New task",type:"d",dt:""};
+  state.tasks.push(t); save(); render(); openEd(t);
+};
+
+/* ---------- modals ---------- */
+var ov=$("ov"), mdl=$("md");
+ov.addEventListener("click",function(e){if(e.target===ov)close()});
+function close(){ov.classList.remove("show")}
+function openDt(t){
+  mdl.innerHTML="<h3>"+esc(t.name)+"</h3><div class='tm'>⏰ "+esc(t.time)+"</div><div class='dt'>"+esc(t.dt||"No detail yet.")+"</div><div class='mb'><button class='bcl' id='x1'>Close</button><button class='bsv' id='x2'>✏️ Edit</button></div>";
+  ov.classList.add("show");
+  $("x1").onclick=close;
+  $("x2").onclick=function(){openEd(t)};
+}
+function openEd(t){
+  mdl.innerHTML="<h3>Edit task</h3><label>Time</label><input id='eT' value=\""+esc(t.time)+"\"><label>Name</label><input id='eN' value=\""+esc(t.name)+"\"><label>Detail</label><textarea id='eD'>"+esc(t.dt)+"</textarea><div class='mb'><button class='bdl' id='eX'>🗑️</button><button class='bcl' id='eC'>Cancel</button><button class='bsv' id='eS'>Save</button></div>";
+  ov.classList.add("show");
+  $("eC").onclick=close;
+  $("eS").onclick=function(){
+    t.time=$("eT").value||"—"; t.name=$("eN").value||"Untitled"; t.dt=$("eD").value;
+    save(); render(); close(); toast("Saved ✓");
+  };
+  var armed=false;
+  $("eX").onclick=function(){
+    if(!armed){armed=true;this.textContent="Tap again to delete";this.style.flex="1.4";return}
+    var nt=[]; for(var i=0;i<state.tasks.length;i++)if(state.tasks[i].id!==t.id)nt.push(state.tasks[i]);
+    state.tasks=nt;
+    for(var k in state.months){if(state.months[k].checks)delete state.months[k].checks[t.id]}
+    save(); render(); close(); toast("Deleted");
+  };
+}
+function openMo(d){
+  var m=md(), cur=m.motion[d]||{}, sel={t:cur.t,s:cur.s};
+  mdl.innerHTML="<h3>🚽 Motion — "+MN[M]+" "+d+"</h3>"+
+  "<label>When?</label><div class='opts'><button class='opt"+(cur.t==="m"?" sel":"")+"' data-mt='m'>🌅 Morning</button><button class='opt"+(cur.t==="a"?" sel":"")+"' data-mt='a'>☀️ Afternoon</button><button class='opt"+(cur.t==="n"?" sel":"")+"' data-mt='n'>🌙 Night</button></div>"+
+  "<label>Type?</label><div class='opts v'><button class='opt"+(cur.s==="normal"?" sel":"")+"' data-ms='normal'>🟢 Smooth (perfect)</button><button class='opt"+(cur.s==="hard"?" sel":"")+"' data-ms='hard'>🔴 Hard / lumpy</button><button class='opt"+(cur.s==="loose"?" sel":"")+"' data-ms='loose'>🟡 Loose / watery</button></div>"+
+  "<div class='mb'><button class='bdl' id='mC'>No motion / clear</button><button class='bcl' id='mX'>Cancel</button><button class='bsv' id='mS'>Save</button></div>";
+  ov.classList.add("show");
+  var bs=mdl.querySelectorAll(".opt");
+  for(var i=0;i<bs.length;i++)(function(b){
+    b.onclick=function(){
+      var mt=b.getAttribute("data-mt"), ms=b.getAttribute("data-ms");
+      if(mt){sel.t=mt; var a=mdl.querySelectorAll("[data-mt]"); for(var j=0;j<a.length;j++)a[j].className="opt"+(a[j]===b?" sel":"")}
+      if(ms){sel.s=ms; var a2=mdl.querySelectorAll("[data-ms]"); for(var j2=0;j2<a2.length;j2++)a2[j2].className="opt"+(a2[j2]===b?" sel":"")}
+    };
+  })(bs[i]);
+  $("mX").onclick=close;
+  $("mS").onclick=function(){
+    if(!sel.t&&!sel.s){toast("Pick time or type first");return}
+    m.motion[d]={t:sel.t||"",s:sel.s||""};
+    save(); render(); close(); toast("Logged ✓");
+  };
+  $("mC").onclick=function(){delete m.motion[d]; save(); render(); close(); toast("Cleared")};
+}
+function openNt(d){
+  var m=md();
+  mdl.innerHTML="<h3>📝 Note — "+MN[M]+" "+d+"</h3><label>How was the day?</label><textarea id='nT'>"+esc(m.notes[d]||"")+"</textarea><div class='mb'><button class='bcl' id='nX'>Cancel</button><button class='bsv' id='nS'>Save</button></div>";
+  ov.classList.add("show");
+  $("nX").onclick=close;
+  $("nS").onclick=function(){
+    var v=$("nT").value;
+    if(v.replace(/\s/g,""))m.notes[d]=v; else delete m.notes[d];
+    save(); render(); close(); toast("Saved ✓");
+  };
+}
+
+/* ---------- boot: render FIRST, storage after ---------- */
+render();
+setSt("Loading…");
+sGet(KEY).then(function(v){
+  try{
+    if(v){
+      var s=JSON.parse(v);
+      if(s&&s.tasks){
+        state=s;
+        if(!state.v||state.v<3){state.tasks=TASKS;state.v=3;save()}
+        render();
+      }
+    }
+  }catch(e){}
+  setSt("Ready");
+}).catch(function(){setSt("Ready")});
+</script>
+</body>
+</html>
