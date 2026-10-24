@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Speak Coach">
+<meta name="theme-color" content="#2E55E6">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADOUlEQVR4nO3d0U3jQBSGUWe1TdAEUABF8AJF8kQRFABNQBv7EAlFEb/jxc7kzuSctwASFvk0c+WJzO726XOCn/y59AVQlziIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEP299AX05O3x/vDlw+v7Za6jlZ1HMCxxlMWhgROxrZw2U8bJ73ZNHCcsee9H7UMcROKYs3xJGHLxEAeROIjEQSQOInEQiYNIHETiIBIHUekj+4+Xm8OXd89fl7qS61Q0jqMsDr8okWYqbis/lrHwu2yoXBxL3nt9tFEuDuqoNXMsXxI+Xm4MH+ce2GvFwUJtBnbbSn+aDezi6EzLgV0cROLoyX8N7Ot/nTiIxEEkDiJxEF3FTTBH/78zeByO/tcYeVtx9L/SsHE4+l9v2DhYb8yZo/jRfy8D8phxlNXXgGxbaae7AVkcjfQ4IIuD6CwzRy8DVzPFB+Rk4zj6GriYt+W20t3AxbzN4uhx4GKegZRomzgaf7aRNqwcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOom3iWP5IJw9/6oiVg2izOJYsCZaNvmy5csy/98rozsaPmtwX4DmkYzjLQ2rVcOTu+Wvhw9BK/ekMpETiaKTHgV0c7XQ3sPtnPE31NbCPGUfxAbBsDUdsK0TDxtHjAFjNsHFMHQ6A1Yw5c3zrawCsZvA49tTwOyNvK6wkDiJxEImDSBw9afxZXXEQiaMzLe/8iqM/ze78XsVNsPG0ufNbK47iR+3VnPuPYFshKheHo/Y6ysUxOWovo9bM8c1RewVF49hTw2VV3FYoQhxE4iASB5E4iMRBJA4icRCJg0gccx5e3zf/yY6Ig0gcJyxZEoZcNiZxLDH/3o9axjRNu9unz0tfQzfeHu8PXw6cxZ44iGwrROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIj+AZdeyE/vHBcKAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADOUlEQVR4nO3d0U3jQBSGUWe1TdAEUABF8AJF8kQRFABNQBv7EAlFEb/jxc7kzuSctwASFvk0c+WJzO726XOCn/y59AVQlziIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEP299AX05O3x/vDlw+v7Za6jlZ1HMCxxlMWhgROxrZw2U8bJ73ZNHCcsee9H7UMcROKYs3xJGHLxEAeROIjEQSQOInEQiYNIHETiIBIHUekj+4+Xm8OXd89fl7qS61Q0jqMsDr8okWYqbis/lrHwu2yoXBxL3nt9tFEuDuqoNXMsXxI+Xm4MH+ce2GvFwUJtBnbbSn+aDezi6EzLgV0cROLoyX8N7Ot/nTiIxEEkDiJxEF3FTTBH/78zeByO/tcYeVtx9L/SsHE4+l9v2DhYb8yZo/jRfy8D8phxlNXXgGxbaae7AVkcjfQ4IIuD6CwzRy8DVzPFB+Rk4zj6GriYt+W20t3AxbzN4uhx4GKegZRomzgaf7aRNqwcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOom3iWP5IJw9/6oiVg2izOJYsCZaNvmy5csy/98rozsaPmtwX4DmkYzjLQ2rVcOTu+Wvhw9BK/ekMpETiaKTHgV0c7XQ3sPtnPE31NbCPGUfxAbBsDUdsK0TDxtHjAFjNsHFMHQ6A1Yw5c3zrawCsZvA49tTwOyNvK6wkDiJxEImDSBw9afxZXXEQiaMzLe/8iqM/ze78XsVNsPG0ufNbK47iR+3VnPuPYFshKheHo/Y6ysUxOWovo9bM8c1RewVF49hTw2VV3FYoQhxE4iASB5E4iMRBJA4icRCJg0gccx5e3zf/yY6Ig0gcJyxZEoZcNiZxLDH/3o9axjRNu9unz0tfQzfeHu8PXw6cxZ44iGwrROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIj+AZdeyE/vHBcKAAAAAElFTkSuQmCC">
+<title>Client Call Speaking Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+
+/* Layout: a practice studio — sticky tab rail, one focused panel at a time, big tap-to-hear cards */
+:root{
+  --bg:#F3F5F9; --surface:#FFFFFF; --ink:#16203A; --muted:#5A6580; --line:#DCE1EC;
+  --accent:#2E55E6; --accent-soft:#E4EAFD; --signal:#F2A516; --good:#1E8A5A; --good-soft:#E2F4EA;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1424; --surface:#182036; --ink:#E8ECF6; --muted:#9AA5C0; --line:#2A3452;
+  --accent:#7C9BFF; --accent-soft:#232F55; --signal:#F5B73B; --good:#4CC28A; --good-soft:#18352A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1424; --surface:#182036; --ink:#E8ECF6; --muted:#9AA5C0; --line:#2A3452;
+  --accent:#7C9BFF; --accent-soft:#232F55; --signal:#F5B73B; --good:#4CC28A; --good-soft:#18352A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:22px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.wave{display:flex;gap:3px;align-items:center;height:34px}
+.wave i{width:4px;border-radius:2px;background:var(--accent);display:block}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);margin:0;letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--muted);margin:2px 0 0;font-size:.95rem}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{font:600 .92rem var(--body);color:var(--muted);background:none;border:0;padding:12px 12px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+main .wrap{padding-block:24px 60px;display:flex;flex-direction:column;gap:22px}
+h2{font-family:var(--display);font-weight:800;font-size:1.45rem;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:1.1rem;margin:0}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch}
+.label{font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:700 .9rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn:hover{border-color:var(--accent)}
+.speed{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.speed button{font:600 .82rem var(--body);background:none;border:0;padding:7px 12px;color:var(--muted);cursor:pointer}
+.speed button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+/* Today checklist */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.step.done{background:var(--good-soft);border-color:var(--good)}
+.step input{width:22px;height:22px;margin-top:2px;accent-color:var(--good)}
+.step .t{min-width:0}
+.step .min{font:500 .8rem var(--mono);color:var(--muted);white-space:nowrap}
+.step p{color:var(--muted);font-size:.93rem}
+.progress{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.progress span{display:block;height:100%;background:var(--good);transition:width .3s}
+.streak{display:flex;gap:14px;flex-wrap:wrap}
+.streak div{min-width:0}
+.big{font:800 1.8rem var(--display);font-variant-numeric:tabular-nums}
+/* Phrases */
+.cats{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:600 .85rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.phrases{display:flex;flex-direction:column;gap:8px}
+.phrase{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.phrase .en{font-weight:700;font-size:1.02rem}
+.phrase .gu{color:var(--muted);font-size:.88rem}
+.phrase .t{min-width:0}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);cursor:pointer;display:grid;place-items:center;flex:none}
+.icon-btn svg{width:18px;height:18px;fill:currentColor}
+.phrase.mastered{border-color:var(--good)}
+.tick{font:500 .75rem var(--mono);color:var(--good)}
+/* Roleplay */
+.client{border-left:4px solid var(--signal)}
+.say{font:700 1.15rem var(--display);line-height:1.4}
+.answer{background:var(--good-soft);border-radius:10px;padding:14px}
+textarea,input[type=text],select{width:100%;font:1rem var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:84px;resize:vertical}
+/* Sounds */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.pair{display:flex;gap:6px;flex-wrap:wrap}
+.pair button{font:600 .9rem var(--body);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+.pair button:hover{border-color:var(--accent)}
+.tip{font-size:.92rem;color:var(--muted)}
+.stress b{color:var(--accent)}
+/* Plan */
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.week h3{margin-bottom:6px}
+.week ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem;display:flex;flex-direction:column;gap:4px}
+.days{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.days button{aspect-ratio:1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--muted);font:500 .8rem var(--mono);cursor:pointer;padding:0}
+.days button.on{background:var(--good);border-color:var(--good);color:var(--surface)}
+.copybox{white-space:pre-wrap;font-family:var(--body);background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:12px;font-size:.95rem}
+.note{font-size:.85rem;color:var(--muted)}
+/* Today session */
+.dayhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.daynav{display:flex;gap:6px;align-items:center}
+.daynav .big{min-width:5ch;text-align:center}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.sec.done{border-color:var(--good)}
+.sec-h{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.sec-h > div{min-width:0}
+.num{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:800 1rem var(--display);display:grid;place-items:center}
+.sec.done .num{background:var(--good);color:var(--surface)}
+.min{font:500 .8rem var(--mono);color:var(--muted);white-space:nowrap}
+.how{font-size:.93rem;color:var(--muted)}
+ol.how,ul.how{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.part{display:flex;flex-direction:column;gap:8px}
+.phrase.now{border-color:var(--signal);box-shadow:0 0 0 2px var(--signal)}
+.newp{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.newp .en{font:800 1.25rem/1.35 var(--display)}
+.btn.rec{background:var(--signal);border-color:var(--signal);color:var(--ink)}
+.btn.rec.on{animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.take{display:flex;flex-direction:column;gap:4px;background:var(--bg);border-radius:10px;padding:10px 12px}
+.take audio{width:100%;max-width:100%}
+@media (max-width:520px){.days{grid-template-columns:repeat(6,1fr)}.step{grid-template-columns:auto 1fr}.step .min{grid-column:2}.sec-h{grid-template-columns:auto 1fr}.sec-h .min{grid-column:2}}
+@media (max-width:520px){header.top .wave{display:none}header.top .wrap{padding-block:16px 14px}h1{font-size:1.35rem}.sub{font-size:.88rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<noscript><div style="padding:20px;font-family:sans-serif;background:#fff3cd;color:#000">This app needs JavaScript. Open the link in <b>Safari</b> (iPhone) or <b>Chrome</b> (Android), not inside another app.</div></noscript>
+
+
+<header class="top"><div class="wrap">
+  <div class="wave" aria-hidden="true"><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i><i style="height:34px"></i><i style="height:14px"></i><i style="height:22px"></i></div>
+  <div style="min-width:0;flex:1">
+    <h1>Client Call Speaking Coach</h1>
+    <p class="sub">20 minutes a day. Speak clearly in US client meetings — first time, not second.</p>
+  </div>
+  <div class="speed" role="group" aria-label="Voice speed">
+    <button type="button" id="sp-slow" aria-pressed="true">Slow</button>
+    <button type="button" id="sp-norm" aria-pressed="false">Normal</button>
+  </div>
+</div></header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist">
+  <button role="tab" data-tab="today">Today</button>
+  <button role="tab" data-tab="phrases">Phrase bank</button>
+  <button role="tab" data-tab="roleplay">Client role-play</button>
+  <button role="tab" data-tab="sounds">Clear sounds</button>
+  <button role="tab" data-tab="plan">30-day plan</button>
+  <button role="tab" data-tab="prep">Meeting prep</button>
+</div></nav>
+
+<main><div class="wrap" id="view"></div></main>
+
+<script>
+(function(){
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let rate=store.get('rate',0.8);
+const speaker='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+let voice=null;
+function pickVoice(){try{const vs=speechSynthesis.getVoices();voice=vs.find(v=>v.lang==='en-US'&&/Samantha|Google US|Aria|Jenny|Natural/i.test(v.name))||vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang&&v.lang.startsWith('en'))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(voice)u.voice=voice;u.rate=rate;speechSynthesis.speak(u)}catch(e){}}
+function setRate(r){rate=r;store.set('rate',r);document.getElementById('sp-slow').setAttribute('aria-pressed',r<1);document.getElementById('sp-norm').setAttribute('aria-pressed',r>=1)}
+document.getElementById('sp-slow').onclick=()=>setRate(0.8);
+document.getElementById('sp-norm').onclick=()=>setRate(1);
+setRate(rate);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- DATA ---------- */
+const STEPS=[
+ {id:'warm',min:'2 min',t:'Mouth warm-up',d:'Wake up your lips and tongue. Say everything loud and slow.'},
+ {id:'shadow',min:'5 min',t:'Shadowing',d:'Listen to a line, then copy it out loud in the gap.'},
+ {id:'learn',min:'3 min',t:'Your 2 new phrases',d:'Learn them by heart. Say each one 5 times.'},
+ {id:'roleplay',min:'5 min',t:'Client role-play',d:'Answer 3 client questions out loud.'},
+ {id:'record',min:'5 min',t:'Record yourself',d:'Speak on today\'s topic for 1–2 minutes, then listen back.'}
+];
+const TONGUE=['We will deliver the very first version on Wednesday.','I think the three designs are better than the old ones.','We designed, checked, and delivered the files last week.','Thank you for the feedback. We fixed the font sizes.','Very well, we will review the website this week.','This is the third draft, and I think it\'s the best one.','We changed the colors, resized the images, and updated the text.','What is the deadline for the next version?','The video was viewed by over three thousand visitors.','Both brochures were printed and shipped on Thursday.'];
+const TOPICS=['Tell a new client about your company.','Explain what you did yesterday at work.','Describe your favorite project and why you like it.','Explain your design process, step by step.','Explain why a client should choose your team.','Describe a difficult client and how you handled it.','Explain the timeline of a website project.','Give a project update: what is done, what is next.','Explain why you chose certain colors for a design.','Tell a client, politely, that a change is outside the scope.','Explain a delay to a client, and give a new date.','Describe your city to a US client.','Explain how you price a project.','Ask a new client 5 questions about their project.','Present 2 design options and recommend one.','Explain what makes a good logo.','Talk about your team and who does what.','Explain the difference between print design and web design.','Thank a client and ask for a review.','Explain how revisions work in your company.','Describe your typical work day.','Explain a mistake your team made and how you will fix it.','Suggest an extra service to a happy client.','Explain why mobile design matters.','Close a call: give a summary and the next steps.','Explain which files the client will receive at the end.','Small talk: talk about one of your hobbies.','Small talk: answer "How was your weekend?"','Explain your company\'s goals for next year.','Day 30 test: Tell a new client about your company. Compare with Day 1!'];
+const PHRASES={
+ 'Start the call':[
+  ['Hi, thanks for joining today. How are you doing?','શરૂઆત — friendly hello'],
+  ['Nice to meet you. I\'m Upavit, from GlobPixel.','પોતાની ઓળખ આપો'],
+  ['Before we start, can you hear me clearly?','audio check'],
+  ['Let me quickly walk you through the update.','update બતાવવાની શરૂઆત'],
+  ['Today I want to cover three things.','agenda આપો'],
+  ['Is it okay if I share my screen?','screen share પૂછો'],
+  ['Good morning! Thanks for making time today.','સવારની શરૂઆત'],
+  ['Okay, let\'s get started.','meeting શરૂ કરો']],
+ 'Explain your work':[
+  ['So, the main idea here is simple.','મુખ્ય વાત કહેવી'],
+  ['Here is what we did, and why we did it.','શું કર્યું અને કેમ'],
+  ['We chose this color because it matches your brand.','કારણ સમજાવવું'],
+  ['On the left side, you can see the new layout.','screen પર બતાવવું'],
+  ['This version is cleaner and easier to read.','improvement કહેવું'],
+  ['Let me show you the before and after.','comparison'],
+  ['Let me explain how this works.','કામ કેવી રીતે થાય છે'],
+  ['The goal of this page is to get more leads.','page નો હેતુ'],
+  ['We kept it simple, so it\'s easy to use on mobile.','સરળ design નું કારણ']],
+ 'Ask questions':[
+  ['Can you tell me a little more about your audience?','client info લેવી'],
+  ['What is the main goal of this project?','goal પૂછો'],
+  ['Do you have any examples you like?','reference માંગો'],
+  ['When do you need the final files?','deadline પૂછો'],
+  ['Who else needs to approve this?','decision maker કોણ'],
+  ['What do you like about your current design?','હાલના design વિશે'],
+  ['What is your budget range for this?','budget પૂછો'],
+  ['Is there anything you don\'t want to see?','શું નથી જોઈતું']],
+ 'Confirm & clarify':[
+  ['Just to confirm, you want the logo bigger, right?','સમજ confirm કરો'],
+  ['So, if I understand correctly, the deadline is Friday.','summary કરીને confirm'],
+  ['Sorry, could you say that again?','ફરી બોલવા કહો'],
+  ['Sorry, the audio cut out. Could you repeat the last part?','network problem'],
+  ['Let me repeat that, slowly.','તમારી વાત ફરી સ્પષ્ટ કહો'],
+  ['Does that make sense?','સમજાયું કે નહીં'],
+  ['Can you type that in the chat, please?','chat માં લખવા કહો'],
+  ['Let me make sure I got everything right.','બધું બરાબર સમજ્યા']],
+ 'Buy time':[
+  ['That\'s a good question. Let me think for a second.','વિચારવાનો સમય'],
+  ['Let me check that and get back to you today.','પછી જવાબ આપવો'],
+  ['I want to give you the right answer, so let me confirm with my team.','team સાથે confirm'],
+  ['Give me one moment, I\'m pulling up the file.','file ખોલો છો'],
+  ['Good point. Let me look into it.','તપાસ કરીશ'],
+  ['I don\'t have that number right now, but I\'ll email it to you.','આંકડો પછી મોકલીશ']],
+ 'Feedback & changes':[
+  ['Thank you for the feedback. That makes sense.','feedback સ્વીકારો'],
+  ['I see your point. One thing I\'d suggest is…','નમ્રતાથી અલગ મત'],
+  ['We can do that. It will take about two extra days.','extra time કહેવો'],
+  ['That change is outside the current scope, but we can add it.','scope બહાર'],
+  ['Which version do you like more, A or B?','choice આપો'],
+  ['No problem, we\'ll fix that today.','આજે સુધારીશું'],
+  ['Can you show me which part you mean?','કયો ભાગ'],
+  ['I understand. Let\'s try a different direction.','નવી દિશા']],
+ 'Timeline & price':[
+  ['We can deliver the first draft by Tuesday, end of day.','delivery date'],
+  ['The full project will take about two weeks.','કુલ સમય'],
+  ['For this scope, the price is fixed.','કિંમત'],
+  ['We will send you an update every two days.','update plan'],
+  ['We\'re on track for Friday.','સમયસર છીએ'],
+  ['There is a small delay, and here is why.','delay સમજાવો'],
+  ['Once we get your approval, we can start right away.','approval પછી શરૂ']],
+ 'Close the call':[
+  ['Great. I\'ll send you a short summary by email today.','summary promise'],
+  ['Is there anything else you want to discuss?','છેલ્લું પૂછો'],
+  ['Thanks for your time. Have a great day!','સરસ રીતે પૂરું કરો'],
+  ['Talk to you on Thursday.','next call'],
+  ['So, the next step is to share the content.','આગળનું પગલું'],
+  ['It was great talking to you.','સરસ વાતચીત']]
+};
+const ROLE=[
+ {q:'Hi! So, can you tell me a little about your company?',a:'Sure. We are a design and web agency. Our team is about thirty people. We do branding, print design, packaging, and websites. Most of our clients are in the US.',h:'Who you are → team → what you do → who you work with.'},
+ {q:'Why should I choose you over other designers?',a:'Good question. First, we have a full team, so you get fast delivery. Second, we have done many similar projects. And third, we keep you updated at every step.',h:'Use First, Second, Third. Short sentences.'},
+ {q:'How long will this project take?',a:'For this scope, about two weeks. You will see the first draft in five days. Then we make changes based on your feedback.',h:'Number first. Then the steps.'},
+ {q:'I don\'t really like the colors in this version.',a:'Thank you, that\'s helpful. Can you tell me what you don\'t like? Is it too bright, or does it not match your brand? Then I can fix it the right way.',h:'Thank them → ask what exactly → promise fix.'},
+ {q:'Can you also make a few social media posts? Same price, right?',a:'I\'m happy to help with that. Social media posts are outside the current scope, so it will be a small extra cost. I can send you a quick quote today.',h:'Positive word first. Then explain scope. Then offer a quote.'},
+ {q:'We need this by tomorrow. Is that possible?',a:'I understand it\'s urgent. Let me check with my team. I can give you a clear answer in one hour. If it\'s not possible, I will suggest the fastest option.',h:'Show you care. Don\'t say yes or no too fast.'},
+ {q:'Sorry, I didn\'t catch that. What did you say?',a:'No problem. Let me say it again, slowly. The first draft will be ready on Tuesday.',h:'Slow down. Say only the key point. Use fewer words.'},
+ {q:'Can you walk me through what you changed?',a:'Sure. I made three changes. First, the heading is bigger. Second, I added more space between sections. And third, the button is now in your brand color.',h:'Give the number of changes first. Then list them.'},
+ {q:'What do you need from me to get started?',a:'Just three things. Your logo files, any content you have, and two or three examples you like. Once I have those, we can start right away.',h:'Count the items. Keep it simple.'},
+ {q:'Okay, I think that\'s everything for today.',a:'Great, thank you. I\'ll send you a summary by email today, and the first draft by Tuesday. Have a great day!',h:'Summary + next step + friendly close.'}
+];
+const PAIRS=[
+ {t:'V vs W',tip:'V: top teeth touch your lower lip. W: round your lips, no teeth.',w:[['very','wary'],['vest','west'],['vine','wine'],['verse','worse'],['vision','window']]},
+ {t:'TH sounds',tip:'Put your tongue lightly between your teeth and blow air. Not "t" or "d".',w:[['think','tink'],['three','tree'],['thank you','tank you'],['this','dis'],['the design','da design']]},
+ {t:'Clear word endings',tip:'Don\'t drop the last sound. Americans listen for -ed, -s and -t.',w:[['designed'],['files'],['delivered'],['changes'],['first draft'],['next week'],['asked'],['budget']]},
+ {t:'Short vs long vowels',tip:'Short sound is quick. Long sound is held a little.',w:[['ship','sheep'],['live','leave'],['full','fool'],['sit','seat']]}
+];
+const STRESS=[['PROject','project (noun)'],['proJECT','project (verb)'],['DEsign? No — deSIGN','design'],['DEADline','deadline'],['CLIent','client'],['deLIVery','delivery'],['FEEDback','feedback'],['PREsentation? No — presenTAtion','presentation'],['deVELopment','development'],['apPROVal','approval'],['inVOICE? No — INvoice','invoice'],['COMfortable','comfortable']];
+const WEEKS=[
+ {t:'Week 1 — Slow & clear',l:['Speak 20% slower in every call','Learn "Start the call" + "Close the call" phrases','V/W and TH drills daily','Record 2 minutes, every day']},
+ {t:'Week 2 — Ready sentences',l:['Learn "Explain your work" + "Confirm" phrases','Role-play questions 1–5','Use "First, Second, Third" in one real call','Shadow one YouTube business video']},
+ {t:'Week 3 — Thinking on your feet',l:['Learn "Buy time" + "Feedback" phrases','Role-play questions 6–10','Explain a project without notes, 3 minutes','Book one tutor call (Cambly / italki)']},
+ {t:'Week 4 — Real calls',l:['Use Meeting prep before every call','Note which sentences clients asked again','Re-record your Day 1 topic and compare','Keep 2 new phrases every day']}
+];
+
+/* ---------- STATE ---------- */
+const today=new Date().toISOString().slice(0,10);
+let start=store.get('start',null);if(!start){start=today;store.set('start',start)}
+const realDay=Math.max(1,Math.min(30,Math.floor((Date.parse(today)-Date.parse(start))/864e5)+1));
+let viewDay=realDay;
+let prog=store.get('prog',{});
+const P=d=>(prog[d]=prog[d]||{done:{},cnt:{}});
+let days=store.get('days',[]);
+let mastered=store.get('mastered',{});
+let cat=store.get('cat',Object.keys(PHRASES)[0]);
+let rIdx=store.get('rIdx',0);
+const FLAT=Object.entries(PHRASES).flatMap(([c,l])=>l.map(([en,gu])=>({en,gu,c})));
+const PAIRLIST=PAIRS.flatMap(p=>p.w.map(w=>({t:p.t,tip:p.tip,w})));
+const pick=(arr,start,count)=>Array.from({length:count},(_,i)=>arr[(start+i)%arr.length]);
+const takes={};
+
+/* ---------- VIEWS ---------- */
+function playBtn(t,label){return `<button type="button" class="icon-btn" aria-label="${label||'Listen'}" data-say="${esc(t)}">${speaker}</button>`}
+function sec(s,i,inner){const done=P(viewDay).done[s.id];
+ return `<section class="sec ${done?'done':''}" id="s-${s.id}"><div class="sec-h"><span class="num">${done?'✓':i+1}</span><div><h3>${s.t}</h3><span class="how">${s.d}</span></div><span class="min">${s.min}</span></div>${inner}
+ <div class="row"><button type="button" class="btn ${done?'':'primary'}" data-done="${s.id}">${done?'✓ Done (tap to undo)':'Mark this step done'}</button></div></section>`}
+function vToday(){
+ const d=viewDay, pr=P(d);
+ const n=STEPS.filter(s=>pr.done[s.id]).length;
+ const m=Object.keys(mastered).length;
+ const pairs=pick(PAIRLIST,(d-1)*5,5);
+ const stress=pick(STRESS,(d-1)*3,3);
+ const tongue=TONGUE[(d-1)%TONGUE.length];
+ const newIdx=((d-1)*2)%FLAT.length;
+ const newP=[FLAT[newIdx],FLAT[(newIdx+1)%FLAT.length]];
+ const shadow=pick(FLAT,Math.max(0,newIdx-8)+((d-1)*3)%5,8).filter(p=>!newP.includes(p)).slice(0,8).concat(newP);
+ const roles=pick(ROLE,(d-1)*3,3);
+ const topic=TOPICS[d-1];
+
+ const warm=`<div class="part"><span class="label">A · Face and tongue (30 seconds)</span><ol class="how">
+  <li>Big smile and say <b>"eee"</b>, then round your lips and say <b>"ooo"</b>. 10 times.</li>
+  <li>Say <b>"ma-ma-ma, la-la-la, ta-ta-ta"</b> fast. 5 times.</li>
+  <li>Tongue lightly between your teeth, blow air: <b>"th-th-th"</b>. 5 times.</li>
+  <li>Top teeth on lower lip: <b>"vvvv"</b>. Then round lips: <b>"wwww"</b>. 5 times each.</li></ol></div>
+ <div class="part"><span class="label">B · Today's sounds — tap, listen, say each 3 times</span>
+  ${pairs.map(p=>`<div class="stack" style="gap:4px"><span class="note"><b>${p.t}:</b> ${p.tip}</span><div class="pair">${p.w.map((w,i)=>`<button type="button" data-say="${esc(w)}">${esc(w)}</button>${i<p.w.length-1?'<span class="note" style="align-self:center">vs</span>':''}`).join('')}</div></div>`).join('')}</div>
+ <div class="part"><span class="label">C · Word stress — say the BIG part louder</span>
+  <div class="pair stress">${stress.map(([s,w])=>`<button type="button" data-say="${esc(w.replace(/ \(.*\)/,''))}">${esc(s).replace(/([A-Z]{2,})/g,'<b>$1</b>')}</button>`).join('')}</div></div>
+ <div class="part"><span class="label">D · Tongue sentence — say it 3 times, slow then normal</span>
+  <div class="phrase"><div class="en">${esc(tongue)}</div>${playBtn(tongue)}</div></div>`;
+
+ const sh=`<ol class="how"><li>Tap <b>Start shadow mode</b>.</li><li>The app says a line, then gives you time.</li><li>In that time, say the same line out loud — same speed, same stress, same pauses.</li><li>It goes through all ${shadow.length} lines 2 times.</li></ol>
+ <div class="row"><button type="button" class="btn primary" id="shadowgo">▶ Start shadow mode</button><button type="button" class="btn" id="shadowstop" hidden>■ Stop</button><span class="note" id="shadowstat" aria-live="polite"></span></div>
+ <div class="phrases" id="shadowlist">${shadow.map((p,i)=>`<div class="phrase" id="sh-${i}" data-line="${esc(p.en)}"><div class="t"><div class="en">${esc(p.en)}</div><div class="gu">${esc(p.gu)}</div></div>${playBtn(p.en)}</div>`).join('')}</div>`;
+
+ const learn=newP.map((p,k)=>{const key=p.en,c=pr.cnt[key]||0,ok=mastered[key];
+  return `<div class="newp"><span class="label">${esc(p.c)} · phrase ${((newIdx+k)%FLAT.length)+1} of ${FLAT.length}</span>
+  <div class="en">${esc(p.en)}</div><div class="gu">Meaning: ${esc(p.gu)}</div>
+  <div class="row"><button type="button" class="btn" data-say="${esc(p.en)}">${speaker} Listen</button>
+  <button type="button" class="btn ${c>=5?'':'primary'}" data-cnt="${esc(key)}">${c>=5?'✓ Said 5 times':'I said it out loud · '+c+'/5'}</button>
+  <button type="button" class="chip" data-m="${esc(key)}" aria-pressed="${!!ok}">${ok?'✓ I know it by heart':'I know it by heart'}</button></div></div>`}).join('')+
+  `<p class="how"><b>Challenge:</b> use both phrases once today — in a call, a chat message, or with your team.</p>`;
+
+ const rp=`<ol class="how"><li>Tap 🔊 and hear the client.</li><li>Answer out loud in 3–4 short sentences.</li><li>Tap <b>Show model answer</b>, listen, and say it once.</li></ol>`+roles.map((r,k)=>`<div class="panel stack client"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><p class="say" style="min-width:0">"${esc(r.q)}"</p>${playBtn(r.q,'Hear question')}</div>
+  <div class="row"><button type="button" class="btn" data-rev="${k}">Show model answer</button></div>
+  <div class="answer stack" id="rv-${k}" hidden><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><p style="min-width:0"><b>${esc(r.a)}</b></p>${playBtn(r.a,'Hear answer')}</div><span class="tip">Tip: ${esc(r.h)}</span></div></div>`).join('');
+
+ const rec=`<div class="panel stack client"><span class="label">Today's topic · speak 1–2 minutes</span><p class="say">${esc(topic)}</p></div>
+ <div class="part"><span class="label">Use this frame</span><ol class="how"><li>Start: <b>"Sure, let me tell you about…"</b></li><li><b>"First, …"</b></li><li><b>"Second, …"</b></li><li><b>"And third, …"</b></li><li>End: <b>"So, that's …"</b></li></ol></div>
+ <div class="row"><button type="button" class="btn rec" id="recbtn">● Record here</button>
+ <label class="btn" for="recfile" id="reclabel">🎙 Use phone recorder</label>
+ <input type="file" id="recfile" accept="audio/*" capture="user" hidden>
+ <span class="note" id="recstat" aria-live="polite"></span></div>
+ <div class="stack" id="takes"></div>
+ <div class="part"><span class="label">Listen back and check</span><ul class="how"><li>Did I stop or say "umm" a lot?</li><li>Were my sentences short?</li><li>Did I say the word endings (design<b>ed</b>, file<b>s</b>)?</li><li>Did I go slow enough?</li></ul><p class="how">Fix <b>one</b> thing, then record again.</p></div>`;
+
+ const inner=[warm,sh,learn,rp,rec];
+ return `<div class="dayhead"><div class="stack" style="gap:2px;min-width:0"><span class="label">${d===realDay?'Today':'Practice day'} · 20 minutes</span><h2>Day ${d} practice</h2></div>
+ <div class="daynav"><button type="button" class="btn" id="dprev" aria-label="Previous day" ${d<=1?'disabled':''}>‹</button><span class="big">${d}<span class="note">/30</span></span><button type="button" class="btn" id="dnext" aria-label="Next day" ${d>=30?'disabled':''}>›</button></div></div>
+ ${d!==realDay?`<p class="note">You are on Day ${realDay}. <button type="button" class="chip" id="dtoday">Go to today</button></p>`:''}
+ <p class="lead">Everything you need is below. Do the 5 steps in order and speak <b>out loud</b> every time.</p>
+ <div class="panel stack"><div class="row" style="justify-content:space-between"><strong>${n} of 5 steps done</strong><span class="note">${days.length} of 30 days complete · ${m} phrases by heart</span></div>
+ <div class="progress"><span style="width:${n*20}%"></span></div></div>
+ ${STEPS.map((s,i)=>sec(s,i,inner[i])).join('')}
+ ${n===5?`<div class="panel stack" style="border-color:var(--good)"><h3>Day ${d} complete. Well done!</h3><p class="how">Come back tomorrow for 2 new phrases, new sounds and a new topic.</p></div>`:''}
+ <div class="panel stack"><h3>The 5 clarity rules for real calls</h3>
+ <ol class="how"><li><b>Slow down 20%.</b> Slow sounds confident, not weak.</li><li><b>Short sentences.</b> 8–10 words. One idea each.</li><li><b>Pause</b> after each idea, like a full stop.</li><li><b>Say the ending</b> of each word: design<b>ed</b>, file<b>s</b>, nex<b>t</b>.</li><li><b>Number your points:</b> "Three things. First… Second… Third…"</li></ol></div>`;
+}
+
+/* ---------- SHADOW MODE ---------- */
+let shOn=false,shTimer=null,shRound=0;
+function utter(t){const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(voice)u.voice=voice;u.rate=rate;return u}
+function shMark(i){document.querySelectorAll('#shadowlist .phrase').forEach((el,k)=>el.classList.toggle('now',k===i));const el=document.getElementById('sh-'+i);if(el)el.scrollIntoView({block:'nearest',behavior:'smooth'})}
+function shStat(t){const s=document.getElementById('shadowstat');if(s)s.textContent=t}
+function shButtons(){const g=document.getElementById('shadowgo'),s=document.getElementById('shadowstop');if(g){g.hidden=shOn;s.hidden=!shOn}}
+function stopShadow(msg){shOn=false;clearTimeout(shTimer);try{speechSynthesis.cancel()}catch(e){}shMark(-1);shButtons();if(msg!==undefined)shStat(msg)}
+function shStep(i){
+ if(!shOn)return;
+ const els=[...document.querySelectorAll('#shadowlist .phrase')];
+ if(i>=els.length){shRound++;if(shRound<2){shStat('Round 2 starting…');shTimer=setTimeout(()=>shStep(0),1500)}else stopShadow('Finished both rounds. Great work!');return}
+ const t=els[i].dataset.line,words=t.split(/\s+/).length;
+ shMark(i);shStat(`Round ${shRound+1} · line ${i+1} of ${els.length} · listen…`);
+ let moved=false;const next=()=>{if(moved||!shOn)return;moved=true;shStat(`Your turn — say it now`);shTimer=setTimeout(()=>shStep(i+1),Math.round(words*520/rate)+1600)};
+ try{const u=utter(t);u.onend=next;u.onerror=next;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+ shTimer=setTimeout(next,Math.round(words*700/rate)+3000);
+}
+
+/* ---------- RECORDING ---------- */
+let mediaRec=null,chunks=[];
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open('coach',1);r.onupgradeneeded=()=>r.result.createObjectStore('rec');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+async function recPut(k,b){try{const db=await idb();db.transaction('rec','readwrite').objectStore('rec').put(b,k)}catch(e){}}
+async function recGet(k){try{const db=await idb();return await new Promise(r=>{const q=db.transaction('rec').objectStore('rec').get(k);q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)})}catch(e){return null}}
+function addTake(d,blob){(takes[d]=takes[d]||[]).push(URL.createObjectURL(blob));recPut('rec-'+d,blob);drawTakes(d)}
+async function drawTakes(d){
+ const box=document.getElementById('takes');if(!box)return;
+ let html=(takes[d]||[]).map((u,i)=>`<div class="take"><span class="label">Take ${i+1}</span><audio controls src="${u}"></audio></div>`).join('');
+ if(!(takes[d]||[]).length){const b=await recGet('rec-'+d);if(b)html+=`<div class="take"><span class="label">Your saved recording for Day ${d}</span><audio controls src="${URL.createObjectURL(b)}"></audio></div>`}
+ if(d===30){const b1=await recGet('rec-1');if(b1)html+=`<div class="take"><span class="label">Day 1 recording — compare with today</span><audio controls src="${URL.createObjectURL(b1)}"></audio></div>`}
+ if(document.getElementById('takes')===box)box.innerHTML=html;
+}
+async function toggleRec(d){
+ const btn=document.getElementById('recbtn'),st=document.getElementById('recstat');
+ if(mediaRec&&mediaRec.state==='recording'){mediaRec.stop();return}
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  chunks=[];mediaRec=new MediaRecorder(stream);
+  mediaRec.ondataavailable=e=>chunks.push(e.data);
+  mediaRec.onstop=()=>{stream.getTracks().forEach(t=>t.stop());addTake(d,new Blob(chunks,{type:mediaRec.mimeType||'audio/webm'}));const b=document.getElementById('recbtn');if(b){b.classList.remove('on');b.textContent='● Record again'}const s=document.getElementById('recstat');if(s)s.textContent='Saved. Press play to listen.'};
+  mediaRec.start();btn.classList.add('on');btn.textContent='■ Stop recording';st.textContent='Recording… speak now';
+ }catch(e){btn.hidden=true;st.textContent='Direct recording is blocked here. Tap "Use phone recorder" — record, then it comes back here to play.'}
+}
+function vPhrases(){
+ const list=PHRASES[cat];
+ return `<div class="stack"><span class="label">Shadowing · speak along</span><h2>Phrase bank</h2>
+ <p class="lead">Tap the speaker. Listen once. Then say it out loud with the same rhythm. When you can say it without looking, tap "I can say it".</p></div>
+ <div class="cats" role="group" aria-label="Categories">${Object.keys(PHRASES).map(c=>`<button type="button" class="chip" data-cat="${esc(c)}" aria-pressed="${c===cat}">${esc(c)}</button>`).join('')}</div>
+ <div class="row"><button type="button" class="btn primary" id="playall">${speaker} Play all in this group</button></div>
+ <div class="phrases">${list.map(([en,gu])=>{const k=en;const ok=mastered[k];return `<div class="phrase ${ok?'mastered':''}"><div class="t"><div class="en">${esc(en)}</div><div class="gu">${esc(gu)}</div>
+ <div class="row" style="margin-top:6px"><button type="button" class="chip" data-m="${esc(k)}" aria-pressed="${!!ok}">${ok?'✓ I can say it':'I can say it'}</button></div></div>
+ <button type="button" class="icon-btn" aria-label="Listen" data-say="${esc(en)}">${speaker}</button></div>`}).join('')}</div>`;
+}
+function vRole(){
+ const r=ROLE[rIdx];
+ return `<div class="stack"><span class="label">Practice like a real call</span><h2>Client role-play</h2>
+ <p class="lead">The US client asks a question. Answer out loud first (you can type it too). Then show the model answer and say it once more.</p></div>
+ <div class="panel stack client"><div class="row" style="justify-content:space-between"><span class="label">Client · question ${rIdx+1} of ${ROLE.length}</span>
+ <button type="button" class="icon-btn" aria-label="Hear question" data-say="${esc(r.q)}">${speaker}</button></div>
+ <p class="say">"${esc(r.q)}"</p></div>
+ <div class="panel stack"><label class="label" for="myans">Your answer (optional — speaking is what matters)</label>
+ <textarea id="myans" placeholder="Say it out loud first, then type here if you want"></textarea>
+ <div class="row"><button type="button" class="btn primary" id="reveal">Show model answer</button><span class="tip">Tip: ${esc(r.h)}</span></div>
+ <div class="answer stack" id="ans" hidden><div class="row" style="justify-content:space-between"><span class="label">Model answer</span><button type="button" class="icon-btn" aria-label="Hear answer" data-say="${esc(r.a)}">${speaker}</button></div><p><b>${esc(r.a)}</b></p></div></div>
+ <div class="row"><button type="button" class="btn" id="prev">← Previous</button><button type="button" class="btn" id="next">Next question →</button><button type="button" class="btn" id="rand">Random</button></div>
+ <div class="panel stack"><h3>Want a live, two-way practice?</h3><p class="tip">Copy this and paste it into a new Claude chat. Claude will act as your US client and correct you after every reply.</p>
+ <div class="copybox" id="rpprompt">You are a US client named Mike who owns a small business. I run a design agency. We are on a video call about a new website project. Ask me one question at a time, like a real client. After each of my answers, give me: 1) a more natural way to say it, in simple English, 2) any word that may be hard to understand. Keep your feedback short. Start the call now.</div>
+ <div class="row"><button type="button" class="btn" id="copyrp">Copy prompt</button><span class="note" id="copymsg"></span></div></div>`;
+}
+function vSounds(){
+ return `<div class="stack"><span class="label">Be understood the first time</span><h2>Clear sounds</h2>
+ <p class="lead">These sounds cause most "Sorry, can you repeat?" moments. Tap a word, listen, and repeat it 3 times.</p></div>
+ <div class="grid2">${PAIRS.map(p=>`<div class="panel stack"><h3>${p.t}</h3><p class="tip">${p.tip}</p>
+ ${p.w.map(pr=>`<div class="pair">${pr.map((w,i)=>`<button type="button" data-say="${esc(w)}">${esc(w)}</button>${i<pr.length-1?'<span class="note" style="align-self:center">vs</span>':''}`).join('')}</div>`).join('')}</div>`).join('')}</div>
+ <div class="panel stack"><h3>Word stress — say the BIG part louder</h3><p class="tip">Wrong stress is the #1 reason a correct word is not understood.</p>
+ <div class="pair stress">${STRESS.map(([s,w])=>`<button type="button" data-say="${esc(w.replace(/ \(.*\)/,''))}">${esc(s).replace(/([A-Z]{2,})/g,'<b>$1</b>')}</button>`).join('')}</div></div>
+ <div class="panel stack"><h3>Tongue practice sentences</h3>
+ ${['We will deliver the very first version on Wednesday.','I think the three designs are better than the old ones.','We designed, checked, and delivered the files last week.','Thank you for the feedback. We fixed the font sizes.'].map(s=>`<div class="phrase"><div class="en">${s}</div><button type="button" class="icon-btn" aria-label="Listen" data-say="${esc(s)}">${speaker}</button></div>`).join('')}</div>`;
+}
+function vPlan(){
+ return `<div class="stack"><span class="label">One month · 20 minutes a day</span><h2>30-day plan</h2>
+ <p class="lead">Days fill in automatically when you finish all 5 steps on the Today page. You can also tap a day. Small daily practice beats one long session per week.</p></div>
+ <div class="panel stack"><div class="row" style="justify-content:space-between"><strong>${days.length} of 30 days</strong><button type="button" class="btn" id="reset">Reset tracker</button></div>
+ <div class="days">${Array.from({length:30},(_,i)=>`<button type="button" data-day="${i+1}" class="${days.includes(i+1)?'on':''}" aria-pressed="${days.includes(i+1)}" aria-label="Day ${i+1}">${i+1}</button>`).join('')}</div>
+ <p class="note" id="resetmsg" hidden>Tap "Reset tracker" again to confirm.</p></div>
+ <div class="weeks">${WEEKS.map(w=>`<div class="panel week"><h3>${w.t}</h3><ul>${w.l.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+ <div class="panel stack"><h3>Day 1 and Day 30 test</h3><p class="tip">Day 1 and Day 30 have the same recording topic: "Tell a new client about your company." Record it on the Today page. On Day 30, your Day 1 recording appears next to it. Compare: fewer stops? shorter sentences? clearer endings?</p></div>`;
+}
+function vPrep(){
+ const p=store.get('prep',{who:'',pts:['','',''],q:''});
+ return `<div class="stack"><span class="label">10 minutes before every call</span><h2>Meeting prep</h2>
+ <p class="lead">Write your key points as short sentences. Then tap "Read it to me", and say each line out loud twice.</p></div>
+ <div class="panel stack">
+ <label class="label" for="pw">Client / project</label><input type="text" id="pw" value="${esc(p.who)}" placeholder="e.g. Mike — restaurant website">
+ ${p.pts.map((v,i)=>`<label class="label" for="pp${i}">Point ${i+1} (one short sentence)</label><input type="text" id="pp${i}" value="${esc(v)}" placeholder="${['e.g. The homepage design is ready.','e.g. We changed the colors to match your logo.','e.g. The full site will be live next Friday.'][i]}">`).join('')}
+ <label class="label" for="pq">My question for the client</label><input type="text" id="pq" value="${esc(p.q)}" placeholder="e.g. Who else needs to approve this?">
+ <div class="row"><button type="button" class="btn primary" id="readprep">${speaker} Read it to me</button><span class="note">Saved on this device</span></div></div>
+ <div class="panel stack"><h3>Your call script</h3><div class="copybox">Hi, thanks for joining today. How are you doing?
+Today I want to cover three things.
+First, … (point 1)
+Second, … (point 2)
+Third, … (point 3)
+I also have one question for you: …
+Great. I'll send you a short summary by email today.</div></div>
+ <div class="panel stack"><h3>If the client asks you to repeat</h3><ol style="margin:0;padding-left:20px;color:var(--muted)"><li>Say "No problem."</li><li>Say it <b>slower</b>, with <b>fewer words</b>.</li><li>Still unclear? Say "Let me type it in the chat" and type it.</li></ol></div>`;
+}
+const VIEWS={today:vToday,phrases:vPhrases,roleplay:vRole,sounds:vSounds,plan:vPlan,prep:vPrep};
+let cur=(location.hash||'').slice(1);if(!VIEWS[cur])cur=store.get('tab','today');
+const view=document.getElementById('view');
+function render(){
+ if(shOn)stopShadow();
+ if(mediaRec&&mediaRec.state==='recording')mediaRec.stop();
+ view.innerHTML=VIEWS[cur]();
+ document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===cur));
+ bind();
+ if(cur==='today')drawTakes(viewDay);
+}
+function go(t){cur=t;store.set('tab',t);render();window.scrollTo(0,0)}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function bind(){
+ view.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>say(b.dataset.say));
+ view.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{const pr=P(viewDay),id=b.dataset.done;pr.done[id]=!pr.done[id];store.set('prog',prog);
+  const all=STEPS.every(s=>pr.done[s.id]);if(all&&!days.includes(viewDay))days=[...days,viewDay];if(!all)days=days.filter(x=>x!==viewDay);store.set('days',days);render()});
+ view.querySelectorAll('[data-cnt]').forEach(b=>b.onclick=()=>{const pr=P(viewDay),k=b.dataset.cnt;pr.cnt[k]=Math.min(5,(pr.cnt[k]||0)+1);store.set('prog',prog);say(k);render()});
+ view.querySelectorAll('[data-rev]').forEach(b=>b.onclick=()=>{document.getElementById('rv-'+b.dataset.rev).hidden=false;b.hidden=true});
+ const dp=document.getElementById('dprev');if(dp){dp.onclick=()=>{viewDay=Math.max(1,viewDay-1);render();window.scrollTo(0,0)};document.getElementById('dnext').onclick=()=>{viewDay=Math.min(30,viewDay+1);render();window.scrollTo(0,0)}}
+ const dt=document.getElementById('dtoday');if(dt)dt.onclick=()=>{viewDay=realDay;render();window.scrollTo(0,0)};
+ const sg=document.getElementById('shadowgo');if(sg){sg.onclick=()=>{shOn=true;shRound=0;shButtons();shStep(0)};document.getElementById('shadowstop').onclick=()=>stopShadow('Stopped.')}
+ const rb=document.getElementById('recbtn');if(rb)rb.onclick=()=>toggleRec(viewDay);
+ const rf=document.getElementById('recfile');if(rf)rf.onchange=()=>{const f=rf.files&&rf.files[0];if(f){addTake(viewDay,f);document.getElementById('recstat').textContent='Added. Press play to listen.'}rf.value=''};
+ view.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;store.set('cat',cat);render()});
+ view.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const k=b.dataset.m;if(mastered[k])delete mastered[k];else mastered[k]=1;store.set('mastered',mastered);render()});
+ const pa=document.getElementById('playall');if(pa)pa.onclick=()=>{try{speechSynthesis.cancel();PHRASES[cat].forEach(([en])=>{const u=new SpeechSynthesisUtterance(en);u.lang='en-US';if(voice)u.voice=voice;u.rate=rate;speechSynthesis.speak(u);const g=new SpeechSynthesisUtterance(' ');g.volume=0;g.rate=0.3;speechSynthesis.speak(g)})}catch(e){}};
+ const rv=document.getElementById('reveal');if(rv)rv.onclick=()=>{document.getElementById('ans').hidden=false};
+ const nx=document.getElementById('next');if(nx){nx.onclick=()=>{rIdx=(rIdx+1)%ROLE.length;store.set('rIdx',rIdx);render()};
+  document.getElementById('prev').onclick=()=>{rIdx=(rIdx-1+ROLE.length)%ROLE.length;store.set('rIdx',rIdx);render()};
+  document.getElementById('rand').onclick=()=>{let n;do{n=Math.floor(Math.random()*ROLE.length)}while(n===rIdx);rIdx=n;store.set('rIdx',rIdx);render()};
+  document.getElementById('copyrp').onclick=()=>{const t=document.getElementById('rpprompt').textContent;const msg=document.getElementById('copymsg');
+   const fallback=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('rpprompt'));const s=getSelection();s.removeAllRanges();s.addRange(r);msg.textContent='Selected — press Ctrl+C / long-press to copy'};
+   try{navigator.clipboard.writeText(t).then(()=>msg.textContent='Copied',fallback)}catch(e){fallback()}}}
+ view.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{const d=+b.dataset.day;days=days.includes(d)?days.filter(x=>x!==d):[...days,d];store.set('days',days);render()});
+ const rs=document.getElementById('reset');if(rs){let armed=false;rs.onclick=()=>{if(!armed){armed=true;document.getElementById('resetmsg').hidden=false;return}days=[];store.set('days',days);render()}}
+ const rp=document.getElementById('readprep');if(rp){
+  const save=()=>store.set('prep',{who:pw.value,pts:[0,1,2].map(i=>document.getElementById('pp'+i).value),q:pq.value});
+  const pw=document.getElementById('pw'),pq=document.getElementById('pq');
+  view.querySelectorAll('input[type=text]').forEach(i=>i.oninput=save);
+  rp.onclick=()=>{const pts=[0,1,2].map(i=>document.getElementById('pp'+i).value.trim()).filter(Boolean);const w=['First','Second','Third'];
+   let s='Hi, thanks for joining today. Today I want to cover '+(pts.length||'three')+' things. '+pts.map((p,i)=>w[i]+', '+p).join(' ');
+   if(pq.value.trim())s+=' I also have one question for you. '+pq.value.trim();s+=' Great. I will send you a short summary by email today.';say(s)}}
+}
+render();
+})();
+</script>
+
+</body>
+</html>
